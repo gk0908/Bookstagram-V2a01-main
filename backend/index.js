@@ -28,7 +28,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 app.post('/upload-files', async (req, res) => {
-  const { title, author, description, genre, rating, coverImage, pdfData, fileName, fileSize } = req.body;
+  const { title, author, description, genre, rating, coverImage, pdfData, fileName, fileSize, userId } = req.body;
 
   // Save PDF to disk
   const base64String = pdfData.replace(/^data:application\/pdf;base64,/, "");
@@ -43,11 +43,12 @@ app.post('/upload-files', async (req, res) => {
       author,
       description,
       genre,
-      rating: parseInt(rating),
+      // rating: parseInt(rating),
       coverImage: coverImage || 'https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg',
       fileName,
       fileSize,
       pdfPath, // Save path instead of pdfData
+      userId, 
     });
 
     await book.save();
@@ -91,6 +92,17 @@ app.get('/files/:fileName', async (req, res) => {
 
 const booksRouter = require('./routes/books');
 app.use('/api/books', booksRouter);
+
+// Return all books for the library page
+app.get('/api/library', async (req, res) => {
+  try {
+    const books = await Book.find();
+    res.json(books);
+  } catch (error) {
+    console.error('Error fetching library books:', error);
+    res.status(500).send('Error fetching library books');
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

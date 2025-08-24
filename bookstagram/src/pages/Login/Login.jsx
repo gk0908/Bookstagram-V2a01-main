@@ -91,6 +91,10 @@ const Login = memo(({ setIsAuthenticated }) => {
           formData.email,
           formData.password
         );
+        const user = auth.currentUser;
+        if (user) {
+          localStorage.setItem("userId", user.uid);
+        }
         toast.success("Login successful!", { position: "top-center" });
         setIsAuthenticated(true);
         navigate("/home");

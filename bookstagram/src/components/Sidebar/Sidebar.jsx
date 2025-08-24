@@ -43,11 +43,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   }, []);
 
   const options = [
-    { name: "Books & Documents", icon: FaBook, path: "/upload" },
-    { name: "Your Books", icon: IoBookSharp, path: "/yourbooks" },
-    { name: "Your Notes", icon: FaBook },
-    { name: "Favorites", icon: FaHeart, path: "/favourite" },
-    { name: "Book Store", icon: FaBook },
+    { name: "Upload your Book", icon: FaBook, path: "/upload" },
+    { name: "Library", icon: FaBook, path: "/library" },
+    { name: "Favorites", icon: FaHeart, path: "/favourites" },
+    // { name: "Book Store", icon: FaBook },
+    { name: "Uploded Content", icon: IoBookSharp, path: "/yourbooks" },
     { name: "Settings", icon: FaCog, path: "/settings" },
     { name: "Support", icon: FaQuestionCircle },
   ];
@@ -87,7 +87,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     >
       {/* Header Section */}
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-white">Bookstagram</h1>
+        <Link to="/">
+          <h1 className="text-2xl font-bold text-white cursor-pointer">Bookstagram</h1>
+        </Link>
 
         <div className="flex items-center gap-4">
           <button className="text-gray-400 hover:text-white relative hidden md:block">
@@ -115,7 +117,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           className="w-24 h-24 rounded-full border-0 border-green-500 object-cover mb-3"
         />
         <h2 className="text-xl font-semibold text-white">{fullName}</h2>
-        <p className="text-gray-400">@anandraj</p>
+        <p className="text-gray-400">@Bookstagram</p>
       </div>
 
       <hr className="border-gray-700 mb-4" />

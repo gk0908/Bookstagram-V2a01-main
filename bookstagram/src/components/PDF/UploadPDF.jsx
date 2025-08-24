@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Upload, Book, User, FileText, Star, Image, Hash, File } from 'lucide-react';
+import { Upload, Book, User, FileText, Image, Hash, File } from 'lucide-react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { HiArrowLeft } from 'react-icons/hi';
-
+import './upload.css';
 const UploadPDF = ({ onBookUploaded, onClose }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -11,7 +11,6 @@ const UploadPDF = ({ onBookUploaded, onClose }) => {
     author: '',
     description: '',
     genre: '',
-    rating: 5,
     coverImage: ''
   });
   const [pdfFile, setPdfFile] = useState(null);
@@ -61,7 +60,6 @@ const UploadPDF = ({ onBookUploaded, onClose }) => {
     if (!formData.description.trim()) newErrors.description = 'Description is required';
     if (!formData.genre.trim()) newErrors.genre = 'Genre is required';
     if (!pdfFile) newErrors.pdfFile = 'PDF file is required';
-    if (formData.rating < 1 || formData.rating > 5) newErrors.rating = 'Rating must be between 1 and 5';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -102,7 +100,7 @@ const UploadPDF = ({ onBookUploaded, onClose }) => {
     }
     setIsUploading(false);
     setPdfFile(null);
-    setFormData({ title: '', author: '', description: '', genre: '', rating: 5, coverImage: '' });
+    setFormData({ title: '', author: '', description: '', genre: '', coverImage: '' });
     if (onBookUploaded) onBookUploaded();
   };
 
@@ -264,33 +262,6 @@ const UploadPDF = ({ onBookUploaded, onClose }) => {
                     placeholder="Enter book description or summary"
                   />
                   {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
-                </div>
-                <div>
-                  <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                    <Star className="w-4 h-4 mr-2 text-blue-600" />
-                    Rating (1-5)
-                  </label>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="range"
-                      name="rating"
-                      min="1"
-                      max="5"
-                      value={formData.rating}
-                      onChange={handleInputChange}
-                      className="flex-1"
-                    />
-                    <div className="flex items-center space-x-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-5 h-5 ${i < formData.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
-                        />
-                      ))}
-                      <span className="ml-2 text-sm font-medium">{formData.rating}/5</span>
-                    </div>
-                  </div>
-                  {errors.rating && <p className="text-red-500 text-sm mt-1">{errors.rating}</p>}
                 </div>
                 <div>
                   <label className="flex items-center text-sm font-medium text-gray-700 mb-2">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Upload, Book, User, FileText, Star, Image, Hash, File } from 'lucide-react';
 import { saveBook } from './localStorage';
 import { createBook } from './book';
+import axios from 'axios';
 
 const BookUpload = ({ onBookUploaded, onClose }) => {
   const [formData, setFormData] = useState({
@@ -95,8 +96,12 @@ const BookUpload = ({ onBookUploaded, onClose }) => {
         coverImage: formData.coverImage.trim() || 'https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg',
         pdfData: pdfBase64,
         fileName: pdfFile.name,
-        fileSize: pdfFile.size
+        fileSize: pdfFile.size,
+        uploadedAt: Date.now(),
+        userId: localStorage.getItem("userId"), // <-- Add this line
       };
+      
+      await axios.post("http://localhost:5000/upload-files", book);
       
       const book = createBook(bookData);
       

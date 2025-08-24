@@ -1,0 +1,238 @@
+.uploadpdf-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  padding: 1.5rem;
+}
+.uploadpdf-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.uploadpdf-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px 0 rgba(60, 80, 180, 0.08);
+  overflow: hidden;
+}
+.uploadpdf-header {
+  background:#16213E; 
+  padding: 2rem 2rem 1.5rem 2rem;
+}
+.uploadpdf-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.uploadpdf-header-icon {
+  background: rgba(255,255,255,0.18);
+  padding: 0.75rem;
+  border-radius: 9999px;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+.uploadpdf-header-uploadicon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #fff;
+}
+.uploadpdf-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+.uploadpdf-subtitle {
+  color: #c7d2fe;
+  font-size: 1rem;
+}
+.uploadpdf-close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.uploadpdf-close-btn:hover {
+  opacity: 1;
+}
+.uploadpdf-close-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.uploadpdf-form {
+  padding: 2rem;
+}
+.uploadpdf-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media (min-width: 1024px) {
+  .uploadpdf-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.uploadpdf-form-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.uploadpdf-label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+.uploadpdf-label-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: 0.5rem;
+  color: #16213E;
+}
+.uploadpdf-filebox {
+  border: 2px dashed #d1d5db;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+  margin-bottom: 0.5rem;
+}
+.uploadpdf-filebox:hover {
+  border-color: #2563eb;
+}
+.uploadpdf-error {
+  border-color: #ef4444 !important;
+  background: #fef2f2 !important;
+}
+.uploadpdf-fileinput {
+  display: none;
+}
+.uploadpdf-filelabel {
+  cursor: pointer;
+  display: block;
+}
+.uploadpdf-fileicon {
+  width: 3rem;
+  height: 3rem;
+  color: #9ca3af;
+  margin: 0 auto 0.5rem auto;
+}
+.uploadpdf-filename {
+  color: #059669;
+  font-weight: 500;
+}
+.uploadpdf-filesize {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+.uploadpdf-filetext {
+  color: #374151;
+}
+.uploadpdf-filehint {
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+.uploadpdf-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  margin-bottom: 0.2rem;
+}
+.uploadpdf-input:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+.uploadpdf-error-text {
+  color: #ef4444;
+  font-size: 0.95rem;
+  margin-top: 0.2rem;
+}
+.uploadpdf-textarea {
+  resize: none;
+  min-height: 120px;
+}
+.uploadpdf-coverhint {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+.uploadpdf-info {
+  background: #eff6ff;
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+.uploadpdf-info-title {
+  color: #1e3a8a;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.uploadpdf-info-list {
+  color: #2563eb;
+  font-size: 0.97rem;
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.uploadpdf-btn-row {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+.uploadpdf-cancel-btn {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #374151;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.uploadpdf-cancel-btn:hover {
+  background: #f3f4f6;
+}
+.uploadpdf-submit-btn {
+  padding: 0.75rem 2rem;
+  background: linear-gradient(90deg, #2563eb 0%, #6366f1 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s, transform 0.2s;
+}
+.uploadpdf-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.uploadpdf-submit-btn:hover:not(:disabled) {
+  background: linear-gradient(90deg, #1d4ed8 0%, #4f46e5 100%);
+  transform: scale(1.04);
+}
+.uploadpdf-submit-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.uploadpdf-spinner {
+  border: 2px solid #fff;
+  border-bottom: 2px solid #6366f1;
+  border-radius: 50%;
+  width: 1.1rem;
+  height: 1.1rem;
+  animation: uploadpdf-spin 0.8s linear infinite;
+  display: inline-block;
+}
+@keyframes uploadpdf-spin {
+  to { transform: rotate(360deg); }
+}

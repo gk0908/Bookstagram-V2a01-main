@@ -6,11 +6,13 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Search from "./pages/FooterPages/Search";
 import Profile from "./pages/FooterPages/Profile";
-import Favourite from "./pages/FooterPages/Favourite";
+import Favourite from "./pages/FooterPages/Favourites";
 import UploadPDF from "./components/PDF/UploadPDF";
 import PdfView from "./components/PDF/PdfView";
 import YourBooks from "./pages/Books/YourBooks";
 import SettingsPage from "./pages/Setting/SettingsPage";
+import Library from "./pages/Books/library";
+// import Favourites from "./pages/Books/Favourite";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 // import BookUpload from "./components/upload/BookUpload"
 const ProtectedRoute = ({ isAuthenticated }) => {
@@ -80,7 +82,8 @@ const App = () => {
           <Route path="/yourbooks" element={<YourBooks />} />
           <Route path="/pdf/:pdfName" element={<PdfView />} />
           <Route path="/settings" element={<SettingsPage />} />
-        </Route>
+          <Route path="/library" element={<Library />} />
+       </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
