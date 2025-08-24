@@ -5,6 +5,7 @@ import { FiMoreVertical } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+// Modern, card-style book component
 const ProgressBook = ({
   title,
   author,
@@ -24,12 +25,6 @@ const ProgressBook = ({
     setShowMenu(!showMenu);
   };
 
-  const handleAction = (action) => {
-    setShowMenu(false);
-    console.log(`${action} action for: ${title}`);
-  };
-
-  // Simulate reading progress update
   const handleRead = () => {
     if (pagesRead < totalPages) {
       onProgressUpdate(fileName, pagesRead + 1);
@@ -43,7 +38,6 @@ const ProgressBook = ({
         setShowMenu(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -51,68 +45,39 @@ const ProgressBook = ({
   }, []);
 
   return (
-    <div className="flex items-center p-4 bg-white rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-200 relative">
-      <img
-        src={image}
-        alt={`Cover of ${title}`}
-        className="w-16 h-24 object-cover border rounded"
-        onError={(e) => {
-          e.target.src = bookPlaceholder;
-        }}
-      />
-      <div className="ml-4 flex-1 min-w-0">
-        <div className="flex justify-between items-start">
-          <h3 className="font-semibold truncate" title={title}>
+    <div className="relative bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300 flex flex-col md:flex-row items-center p-6 mb-8 border border-blue-100 group">
+      <div className="relative">
+        <img
+          src={image}
+          alt={`Cover of ${title}`}
+          className="w-28 h-40 object-cover rounded-xl shadow-lg border-4 border-white group-hover:scale-105 transition-transform duration-200"
+          onError={(e) => {
+            e.target.src = bookPlaceholder;
+          }}
+        />
+        {/* Menu removed */}
+      </div>
+      <div className="flex-1 min-w-0 mt-4 md:mt-0 md:ml-8 flex flex-col justify-between h-full">
+        <div>
+          <h3 className="font-bold text-xl text-blue-900 truncate" title={title}>
             {title}
           </h3>
-          <div className="relative" ref={menuRef}>
-            <button
-              className="p-1 text-gray-500 hover:text-gray-700 focus:outline-none"
-              onClick={handleMenuToggle}
-            >
-              <FiMoreVertical />
-            </button>
-            {showMenu && (
-              <div className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
-                <div className="py-1">
-                  <button
-                    onClick={() => handleAction("Share")}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-                  >
-                    Share
-                  </button>
-                  <button
-                    onClick={() => handleAction("Edit")}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleAction("Remove")}
-                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+          <p className="text-blue-600 text-sm mb-2 truncate" title={author}>
+            by {author}
+          </p>
         </div>
-        <p className="text-gray-500 text-sm truncate" title={author}>
-          {author}
-        </p>
-        <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+        <div className="w-full bg-gray-200 rounded-full h-3 mt-2 mb-1">
           <div
-            className="bg-green-500 h-2 rounded-full"
+            className="bg-gradient-to-r from-blue-400 to-indigo-500 h-3 rounded-full transition-all duration-300"
             style={{ width: `${progressPercentage}%` }}
           ></div>
         </div>
-        <p className="text-gray-500 text-xs mt-1">
-          {pagesRead} of {totalPages} pages • {progressPercentage}%
-        </p>
-        <div className="flex items-center mt-2">
+        <div className="flex justify-between items-center mt-2">
+          <span className="text-xs text-gray-500">
+            {pagesRead} of {totalPages} pages • {progressPercentage}%
+          </span>
           <button
-            className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+            className="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg shadow hover:from-blue-700 hover:to-indigo-700 transition-all text-sm font-semibold"
             onClick={handleRead}
           >
             Read
@@ -137,11 +102,9 @@ const YourBooks = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    // Fetch books from backend API
     axios
-      .get("http://localhost:5000/api/books") // <-- use full URL
+      .get("http://localhost:5000/api/books")
       .then((res) => {
-        console.log("Books API response:", res.data);
         setBooks(Array.isArray(res.data) ? res.data : []);
       })
       .catch((err) => {
@@ -150,7 +113,6 @@ const YourBooks = () => {
       });
   }, []);
 
-  // Update progress and persist to localStorage
   const handleProgressUpdate = (fileName, newPagesRead) => {
     const updatedBooks = books.map((book) =>
       book.fileName === fileName
@@ -161,13 +123,15 @@ const YourBooks = () => {
   };
 
   return (
-    <div className="overflow-y-auto lg:grid grid-cols-2 gap-x-4 lg:mt-4">
+    <div className="overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 p-6">
       {books.length === 0 ? (
-        <p className="text-gray-500 text-center">No books uploaded yet.</p>
+        <p className="text-gray-500 text-center col-span-full">
+          No books uploaded yet.
+        </p>
       ) : (
         books.map((book, idx) => (
           <ProgressBook
-            key={book.fileName ? book.fileName : idx}
+            key={book._id || book.fileName || idx}
             title={book.title}
             author={book.author}
             image={book.coverImage}

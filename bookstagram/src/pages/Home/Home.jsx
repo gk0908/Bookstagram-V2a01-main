@@ -8,9 +8,9 @@ import RecentBooks from "../Books/RecentBooks";
 const Home = () => {
   return (
     <div className="flex h-screen">
-      {/* <Header /> */}
+      <Header />
       <Navbar />
-      <RecentBooks />
+      {/* <RecentBooks /> */}
       <Footer/>
     </div>
   );

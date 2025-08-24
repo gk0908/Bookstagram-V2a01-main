@@ -289,7 +289,7 @@ const BookUpload = ({ onBookUploaded, onClose }) => {
                 </div>
 
                 {/* Rating */}
-                <div>
+                {/* <div>
                   <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
                     <Star className="w-4 h-4 mr-2 text-blue-600" />
                     Rating (1-5)
@@ -317,7 +317,7 @@ const BookUpload = ({ onBookUploaded, onClose }) => {
                     </div>
                   </div>
                   {errors.rating && <p className="text-red-500 text-sm mt-1">{errors.rating}</p>}
-                </div>
+                </div> */}
 
                 {/* Cover Image URL */}
                 <div>
@@ -342,8 +342,8 @@ const BookUpload = ({ onBookUploaded, onClose }) => {
                   <ul className="text-sm text-blue-700 space-y-1">
                     <li>• PDF files only are supported</li>
                     <li>• Maximum file size: 50MB</li>
-                    <li>• Books are stored locally in your browser</li>
-                    <li>• Reading progress is automatically tracked</li>
+                    <li>• Books are stored locally in your device</li>
+                    {/* <li>• Reading progress is automatically tracked</li> */}
                   </ul>
                 </div>
               </div>
