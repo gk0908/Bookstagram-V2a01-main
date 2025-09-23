@@ -76,7 +76,9 @@ const Header = () => {
             />
           )}
         </div>
+        {/* <Footer /> */}
       </div>
+
     </>
   );
 };
