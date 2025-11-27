@@ -45,9 +45,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   const options = [
     { name: "Upload your Book", icon: FaBook, path: "/upload" },
     { name: "Library", icon: FaBook, path: "/library" },
-    { name: "Favorites", icon: FaHeart, path: "/favourites" },
+    // { name: "Favorites", icon: FaHeart, path: "/favourites" },
     // { name: "Book Store", icon: FaBook },
-    { name: "Uploded Content", icon: IoBookSharp, path: "/yourbooks" },
+    { name: "Your Favourite", icon: IoBookSharp, path: "/yourbooks" },
     { name: "Settings", icon: FaCog, path: "/settings" },
     { name: "Support", icon: FaQuestionCircle },
   ];

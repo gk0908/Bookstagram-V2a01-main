@@ -6,13 +6,18 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Search from "./pages/FooterPages/Search";
 import Profile from "./pages/FooterPages/Profile";
-import Favourite from "./pages/FooterPages/Favourites";
+// import Favourite from "./pages/FooterPages/Favourites";
 import UploadPDF from "./components/PDF/UploadPDF";
 import PdfView from "./components/PDF/PdfView";
 import YourBooks from "./pages/Books/YourBooks";
 import SettingsPage from "./pages/Setting/SettingsPage";
 import Library from "./pages/Books/library";
-// import Favourites from "./pages/Books/Favourite";
+// import Favorite from "./pages/Books/favorite";
+// import  from "./pages/Books/PdfViewer";
+// import Favourites from "./pages/Books/Favourite
+// ";
+import PdfViewer from "./pages/Books/PdfViewer";
+
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 // import BookUpload from "./components/upload/BookUpload"
 const ProtectedRoute = ({ isAuthenticated }) => {
@@ -77,12 +82,14 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/favourite" element={<Favourite />} />
+          {/* <Route path="/favourite" element={<Favourite />} /> */}
           <Route path="/upload" element={<UploadPDF />} />
           <Route path="/yourbooks" element={<YourBooks />} />
           <Route path="/pdf/:pdfName" element={<PdfView />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/library" element={<Library />} />
+          <Route path="/pdf/:fileName" element={<PdfViewer />} />
+
        </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

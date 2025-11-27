@@ -3,6 +3,7 @@ import { Upload, Book, User, FileText, Star, Image, Hash, File } from 'lucide-re
 import { saveBook } from './localStorage';
 import { createBook } from './book';
 import axios from 'axios';
+import { auth } from "../../components/firebase";
 
 const BookUpload = ({ onBookUploaded, onClose }) => {
   const [formData, setFormData] = useState({
@@ -87,18 +88,15 @@ const BookUpload = ({ onBookUploaded, onClose }) => {
       const pdfBase64 = await convertFileToBase64(pdfFile);
       
       // Create book object
-      const bookData = {
-        title: formData.title.trim(),
-        author: formData.author.trim(),
-        description: formData.description.trim(),
-        genre: formData.genre.trim(),
-        rating: parseInt(formData.rating),
-        coverImage: formData.coverImage.trim() || 'https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg',
+      const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
+
+      const book = {
+        ...formData,
         pdfData: pdfBase64,
         fileName: pdfFile.name,
         fileSize: pdfFile.size,
         uploadedAt: Date.now(),
-        userId: localStorage.getItem("userId"), // <-- Add this line
+        userId: currentUserId,
       };
       
       await axios.post("http://localhost:5000/upload-files", book);

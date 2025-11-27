@@ -1,134 +1,108 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import bookPlaceholder from "../../assets/book.jpg";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { HiArrowLeft } from "react-icons/hi";
 
-// ---- Book Card ----
-const ProgressBook = ({
-  title,
-  author,
-  image = bookPlaceholder,
-  fileName,
-  onRead,
-}) => {
-  const navigate = useNavigate();
+const idOf = (book) => String(book?._id ?? book?.id ?? book?.fileName ?? "");
 
-  const handleRead = () => {
-    if (onRead) onRead(fileName);
-    navigate(`/pdf/${encodeURIComponent(fileName)}`);
-  };
-
-  return (
-    <div className="bg-[#16213e] rounded-lg shadow-md overflow-hidden cursor-pointer transition-all duration-300 flex flex-col hover:shadow-2xl hover:-translate-y-1 w-full">
-      {/* Book image */}
-      <div className="relative flex-grow flex items-center justify-center h-48 sm:h-56 w-full overflow-hidden bg-gray-700">
-        <img
-          src={image}
-          alt={`Cover of ${title}`}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          onError={(e) => {
-            e.target.src = bookPlaceholder;
-          }}
-        />
-      </div>
-
-      {/* Book content */}
-      <div className="p-4 sm:p-5 flex flex-col flex-1">
-        <h3
-          className="font-bold text-white text-sm sm:text-base truncate group-hover:text-emerald-500 transition-colors"
-          title={title}
-        >
-          {title}
-        </h3>
-        <p
-          className="text-gray-300 text-xs sm:text-sm mt-1 truncate group-hover:text-gray-400 transition-colors"
-          title={author}
-        >
-          {author}
-        </p>
-
-        {/* Read button */}
-        <button
-          className="mt-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-md font-semibold text-sm hover:from-blue-600 hover:to-indigo-700 transition-all shadow"
-          onClick={handleRead}
-        >
-          Read
-        </button>
-      </div>
-    </div>
-  );
-};
-
-ProgressBook.propTypes = {
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  image: PropTypes.string,
-  fileName: PropTypes.string,
-  onRead: PropTypes.func,
-};
-
-// ---- Books Grid with Navbar ----
-const YourBooks = () => {
+const YourBook = () => {
   const [books, setBooks] = useState([]);
-  const navigate = useNavigate();
+  const [favourites, setFavourites] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("favouriteBooks") || "[]").map(String);
+    } catch {
+      return [];
+    }
+  });
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/books")
-      .then((res) => {
-        setBooks(Array.isArray(res.data) ? res.data : []);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch books:", err);
-        setBooks([]);
-      });
+fetch("http://localhost:5000/api/library")
+      .then((r) => r.json())
+      .then((data) => setBooks(Array.isArray(data) ? data : []))
+      .catch(() => setBooks([]));
   }, []);
 
-  const handleRead = (fileName) => {
-    console.log("Reading:", fileName);
+  useEffect(() => {
+    const onStorage = () => {
+      try {
+        setFavourites(JSON.parse(localStorage.getItem("favouriteBooks") || "[]").map(String));
+      } catch {
+        setFavourites([]);
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("favourites-updated", onStorage);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("favourites-updated", onStorage);
+    };
+  }, []);
+
+  const removeFavourite = (bookId) => {
+    const id = String(bookId);
+    const updated = favourites.filter((x) => x !== id);
+    setFavourites(updated);
+    try {
+      localStorage.setItem("favouriteBooks", JSON.stringify(updated));
+      window.dispatchEvent(new CustomEvent("favourites-updated", { detail: updated }));
+    } catch {}
   };
 
-  const handleBackClick = () => {
-    navigate(-1); // go back to previous page
-  };
+  const favouriteBooks = books.filter((b) => favourites.includes(idOf(b)));
+
+  if (favouriteBooks.length === 0) {
+    return (
+      <div style={{ padding: 20 }}>
+        <h2>Favorites</h2>
+        <p>No favorite books yet.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Top Navbar */}
-      <nav className="bg-[#16213e] text-white shadow-lg">
-        <div className="container mx-auto px-4 py-2.5 flex items-center">
-          <button onClick={handleBackClick} className="p-2 rounded-full">
-            <HiArrowLeft className="text-2xl" />
-          </button>
-          <h1 className="text-2xl font-bold ml-4 md:text-center md:mx-auto">
-           Uploaded Books
-          </h1>
-        </div>
-      </nav>
-
-      {/* Books Grid */}
-      <div className="flex-1 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
-        {books.length === 0 ? (
-          <p className="text-gray-500 text-center col-span-full">
-            No books uploaded yet.
-          </p>
-        ) : (
-          books.map((book, idx) => (
-            <ProgressBook
-              key={book._id || book.fileName || idx}
-              title={book.title}
-              author={book.author}
-              image={book.coverImage}
-              fileName={book.fileName}
-              onRead={handleRead}
+    <div style={{ padding: 20 }}>
+      <h2>Favorites</h2>
+      <div style={{ display: "grid", gap: 12 }}>
+        {favouriteBooks.map((book) => (
+          <div
+            key={idOf(book)}
+            style={{
+              display: "flex",
+              gap: 12,
+              alignItems: "center",
+              padding: 12,
+              border: "1px solid #e5e7eb",
+              borderRadius: 8,
+              background: "#fff",
+            }}
+          >
+            <img
+              src={book.coverImage || bookPlaceholder}
+              alt={book.title}
+              style={{ width: 56, height: 80, objectFit: "cover", borderRadius: 4 }}
+              onError={(e) => (e.target.src = bookPlaceholder)}
             />
-          ))
-        )}
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 600 }}>{book.title}</div>
+              <div style={{ color: "#6b7280", fontSize: 13 }}>{book.author}</div>
+            </div>
+            <button
+              onClick={() => removeFavourite(idOf(book))}
+              style={{
+                padding: "8px 12px",
+                borderRadius: 6,
+                border: "none",
+                cursor: "pointer",
+                background: "#ef4444",
+                color: "#fff",
+                fontWeight: 600,
+              }}
+            >
+              Remove
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default YourBooks;
+export default YourBook;
